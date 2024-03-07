@@ -184,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (account_type.equals("client")) {
                                 toastText = getResources().getString(R.string.success_login);
                                 Intent intent = new Intent(getApplicationContext(), MainClientActivity.class);
-                                intent.putExtra("login", login);
+                                intent.putExtra("user_id", user_id);
                                 startActivity(intent);
                             }
                             else {

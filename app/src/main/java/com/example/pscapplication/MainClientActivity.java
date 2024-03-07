@@ -11,7 +11,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainClientActivity extends AppCompatActivity {
 
-    static String login;
+    static String user_id;
     BottomNavigationView bottomNavigationView;
     MyObjectsFragment myObjectsFragment = new MyObjectsFragment();
 
@@ -22,10 +22,27 @@ public class MainClientActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_client);
 
         Intent intent = getIntent();
-        login = intent.getStringExtra("login");
-        Log.e("LOGIN", login);
+        user_id = intent.getStringExtra("user_id");
+        Log.e("USER-ID", user_id);
 
         bottomNavigationView = findViewById(R.id.bnvClientMain);
-        getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myObjectsFragment);
+        getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myObjectsFragment).commit();
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if(item.getItemId() == R.id.myObjectsMenu) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myObjectsFragment).commit();
+            }
+            if(item.getItemId() == R.id.myRequestsMenu) {
+                //getSupportFragmentManager().beginTransaction().replace(R.id.adminActivityFragment, adminStocksFragment).commit();
+            }
+            if(item.getItemId() == R.id.myProfileMenu) {
+                //getSupportFragmentManager().beginTransaction().replace(R.id.adminActivityFragment, profileFragment).commit();
+            }
+            return false;
+        });
+    }
+
+    public static String getUserId() {
+        return user_id;
     }
 }

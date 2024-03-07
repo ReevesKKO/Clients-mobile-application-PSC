@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/myObjectsMenu"
+        android:title="@string/objectsTitle"
+        />
+    <item
+        android:id="@+id/myRequestsMenu"
+        android:title="@string/requestsTitle"
+        />
+    <item
+        android:id="@+id/myProfileMenu"
+        android:title="@string/profileTitle"
+        />
+</menu>

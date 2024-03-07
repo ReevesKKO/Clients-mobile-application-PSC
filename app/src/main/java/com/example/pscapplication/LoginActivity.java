@@ -2,6 +2,7 @@ package com.example.pscapplication;
 
 import static com.example.pscapplication.JWTHelper.decode;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -166,27 +167,30 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     else if (responseCode == 200) {
                         jwt = ja.getString("JWT");
-                        toastText = getResources().getString(R.string.success_login);
                         Log.e("JWT", jwt);
                         String[] parts = JWTHelper.splitJWT(jwt);
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                             JSONObject header = new JSONObject(decode(parts[0]));
                             JSONObject payload = new JSONObject(decode(parts[1]));
-                            String signature = JWTHelper.hMacSha256(parts[2], "REEVESPEDIK");
 
                             Log.e("HEADER", String.valueOf(header));
                             Log.e("PAYLOAD", String.valueOf(payload));
-                            Log.e("SIGNATIRE", signature);
-                            //String headerAndPayloadHashed = hmacSha256((parts[0] + "." + parts[1]), "REEVESPEDIK");
+
+                            String user_id = payload.getString("user_id");
+                            String account_type = payload.getString("account_type");
+                            Log.e("USER_ID", user_id);
+                            Log.e("ACCOUNT_TYPE", account_type);
+
+                            if (account_type.equals("client")) {
+                                toastText = getResources().getString(R.string.success_login);
+                                Intent intent = new Intent(getApplicationContext(), MainClientActivity.class);
+                                intent.putExtra("login", login);
+                                startActivity(intent);
+                            }
+                            else {
+                                toastText = getResources().getString(R.string.not_a_client);
+                            }
                         }
-                        //String payload = JWTHelper.getPayload(jwt);
-                        //Log.e("PAYLOAD LOGIN", payload);
-                        //byte[] decodedBytes = new byte[0];
-                        //if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        //    decodedBytes = Base64.getDecoder().decode(payload);
-                        //    String decodedString = new String(decodedBytes);
-                        //    Log.e("Payload", decodedString);
-                        //}
                     }
                     else {
                         toastText = getResources().getString(R.string.unknown_error);

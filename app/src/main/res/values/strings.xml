@@ -23,4 +23,13 @@
     <string name="no_login_found">Не найден пользователь с такими данными.</string>
     <string name="unknown_error">Неизвестная ошибка.</string>
     <string name="success_login">Успешная авторизация.</string>
+    <string name="not_a_client">Попытка авторизоваться не в качестве клиента.</string>
+
+    <!-- Заголовки меню -->
+    <string name="objectsTitle">Объекты</string>
+    <string name="profileTitle">Профиль</string>
+    <string name="requestsTitle">Заявки</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

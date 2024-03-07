@@ -1,7 +1,5 @@
 package com.example.pscapplication;
 
-import static java.net.URLEncoder.encode;
-
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -73,15 +71,12 @@ public class JWTHelper {
             throw new RuntimeException(ex);
         }
     }
-}
 
-
-    /*public static String getPayload(String jwt) {
-        String[] arr = jwt.split(".");
-        String header, payload, signature;
-        for (String word : arr) {
-            Log.e("OOO", word);
+    public static String encode(String string) {
+        String result = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            result = Base64.getUrlEncoder().withoutPadding().encodeToString(string.getBytes());
         }
-        payload = "aaa";
-        return payload;
-    }*/
+        return result;
+    }
+}

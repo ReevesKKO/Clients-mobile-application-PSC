@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">PSC Application</string>
+    <string name="ok_button_title">Ок</string>
+    <string name="btn_auth_text">Авторизоваться</string>
+    <string name="btn_yes">Да</string>
+    <string name="btn_no">Нет</string>
+    <string name="check_internet_connection">Не удалось установить соединение с сервером. Пожалуйста, проверьте подключение к интернету или повторите попытку позже.</string>
+    <string name="check_internet_connection_title">Проверьте подключение</string>
+    <string name="PSC">PSC</string>
+    <string name="are_you_sure">Подтвердите действие</string>
+    <string name="want_to_exit">Вы точно хотите выйти из учётной записи?</string>
+    <string name="PSC_text_l_and_reg">PSC на страже вашего бизнеса</string>
+    <string name="auth_title">Авторизация</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="go_auth">Авторизоваться</string>
+    <string name="go_reg">Зарегистрироваться</string>
+    <string name="go_further">Далее</string>
+    <string name="not_all_fields_are_filled_title">Не все поля заполнены</string>
+    <string name="not_all_fields_are_filled">Не все поля заполнены. Проверьте правильность заполнения.</string>
+    <string name="wrong_login_or_password">Неверный логин или пароль.</string>
+    <string name="no_login_found">Не найден пользователь с такими данными.</string>
+    <string name="unknown_error">Неизвестная ошибка.</string>
+    <string name="success_login">Успешная авторизация.</string>
 </resources>

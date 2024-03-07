@@ -4,16 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PreloadActivity">
+    android:background="@color/dark_grey"
+    tools:context=".PreloadActivity" >
 
     <TextView
-        android:id="@+id/tvStatusTest"
+        android:id="@+id/tvPreloaderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="353dp"
-        android:layout_marginEnd="177dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="325dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginBottom="45dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/PSC"
+        android:textColor="@color/white"
+        android:textSize="96sp"
+        app:layout_constraintBottom_toTopOf="@+id/preloader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/preloader"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="87dp"
+        android:layout_height="102dp"
+        android:layout_marginStart="162dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginBottom="131dp"
+        android:backgroundTint="@color/white"
+        android:indeterminateTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPreloaderText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

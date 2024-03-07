@@ -2,8 +2,10 @@ package com.example.pscapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -13,7 +15,6 @@ import java.net.UnknownHostException;
 
 public class PreloadActivity extends AppCompatActivity {
 
-    TextView tvStatusTest;
     Boolean state;
     String result, link;
 
@@ -22,8 +23,14 @@ public class PreloadActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preload);
-        tvStatusTest = findViewById(R.id.tvStatusTest);
-        new CheckConnection().execute();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new CheckConnection().execute();
+            }
+        }, 500);
     }
 
     public class CheckConnection extends AsyncTask<String, Void, String>
@@ -32,24 +39,36 @@ public class PreloadActivity extends AppCompatActivity {
 
         protected String doInBackground(String... arg0) {
             try {
-                link = new URL("http://10.0.2.2/").getHost();
+                String ipaddress = BackHelper.getServerIpAddress();
+                link = new URL("http://" + ipaddress).getHost();
                 state = InetAddress.getByName(link).isReachable(15000);
                 if (state == Boolean.TRUE) {
-                    result = "Сервер доступен";
+                    result = "Success";
                 }
                 else {
-                    result = "Сервер недоступен";
+                    result = "Error: server is unavailable";
                 }
             } catch (UnknownHostException e) {
-                result = "UnknownHost";
+                result = "Error: UnknownHost";
             } catch (IOException e) {
-                result = "ERR";
+                result = "Error";
             }
             return result;
         }
 
         protected void onPostExecute(String result) {
-            tvStatusTest.setText(result);
+            if (result == "Success") {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+            else {
+                showErrorDialog();
+            }
+        }
+
+        public void showErrorDialog() {
+            CheckInternetConnectionFragment dialog = new CheckInternetConnectionFragment();
+            dialog.show(getSupportFragmentManager(), "custom");
         }
     }
 }

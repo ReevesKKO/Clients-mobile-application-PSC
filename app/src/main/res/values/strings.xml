@@ -11,24 +11,59 @@
     <string name="want_to_exit">Вы точно хотите выйти из учётной записи?</string>
     <string name="PSC_text_l_and_reg">PSC на страже вашего бизнеса</string>
     <string name="auth_title">Авторизация</string>
+    <string name="reg_title">Регистрация</string>
     <string name="login_hint">Логин</string>
     <string name="password_hint">Пароль</string>
+    <string name="password_confirm_hint">Подтверждение пароля</string>
     <string name="forgot_password">Забыли пароль?</string>
     <string name="go_auth">Авторизоваться</string>
     <string name="go_reg">Зарегистрироваться</string>
     <string name="go_further">Далее</string>
     <string name="not_all_fields_are_filled_title">Не все поля заполнены</string>
     <string name="not_all_fields_are_filled">Не все поля заполнены. Проверьте правильность заполнения.</string>
-    <string name="wrong_login_or_password">Неверный логин или пароль.</string>
-    <string name="no_login_found">Не найден пользователь с такими данными.</string>
     <string name="unknown_error">Неизвестная ошибка.</string>
-    <string name="success_login">Успешная авторизация.</string>
-    <string name="not_a_client">Попытка авторизоваться не в качестве клиента.</string>
+    <string name="company_name_hint">Название компании</string>
+    <string name="full_name_hint">ФИО контактного лица</string>
+    <string name="phone_num_hint">Номер телефона</string>
+    <string name="email_hint">E-Mail</string>
 
     <!-- Заголовки меню -->
     <string name="objectsTitle">Объекты</string>
     <string name="profileTitle">Профиль</string>
     <string name="requestsTitle">Заявки</string>
+
+    <!-- LOGIN ERRORS -->
+    <string name="login_400_1">Неверный логин или пароль.</string>
+    <string name="login_400_2">Не найден пользователь с такими данными.</string>
+    <string name="login_400_3">Ошибка: не все поля формы заполнены</string>
+    <string name="not_a_client">Попытка авторизоваться не в качестве клиента.</string>
+
+    <!-- LOGIN SUCCESS -->
+    <string name="login_200">Успешная авторизация.</string>
+
+    <!-- REG ERRORS -->
+    <string name="reg_400_1">Ошибка: данный логин уже занят</string>
+    <string name="reg_400_2">Ошибка: E-Mail или номер телефона занят</string>
+    <string name="reg_400_3">Ошибка: не все поля формы заполнены</string>
+    <string name="reg_500_1">Ошибка: не удалось добавить аккаунт пользователя</string>
+    <string name="reg_500_2">Ошибка: не удалось добавить клиента</string>
+    <string name="reg_500_3">Ошибка: не удалось найти account_id для добавления клиента</string>
+
+    <!-- REG SUCCESS -->
+    <string name="reg_200">Успешная регистрация</string>
+
+    <!-- PROFILE TITLES -->
+    <string name="profileUsernameTitle">Логин:</string>
+    <string name="profileContactPersonTitle">ФИО:</string>
+    <string name="profileEmailTitle">E-Mail:</string>
+    <string name="profilePhoneNumberTitle">Номер телефона:</string>
+    <string name="profileCompanyNameTitle">Название компании:</string>
+
+    <!-- LOG OUT -->
+    <string name="log_out_title">Выйти из учётной записи?</string>
+    <string name="log_out">Вы уверены, что хотите выйти из своей учётной записи?</string>
+    <string name="yes_button_title">Да</string>
+    <string name="no_button_title">Нет</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

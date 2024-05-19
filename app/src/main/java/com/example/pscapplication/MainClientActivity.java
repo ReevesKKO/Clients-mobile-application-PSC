@@ -11,9 +11,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainClientActivity extends AppCompatActivity {
 
-    static String user_id;
+    static String user_id, username;
     BottomNavigationView bottomNavigationView;
     MyObjectsFragment myObjectsFragment = new MyObjectsFragment();
+    ProfileFragment profileFragment = new ProfileFragment();
+    MyLogsFragment myLogsFragment = new MyLogsFragment();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -24,6 +26,15 @@ public class MainClientActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         Log.e("USER-ID", user_id);
+        username = intent.getStringExtra("username");
+
+        /*Button btnGetLogs = findViewById(R.id.btnGetLogs);
+        btnGetLogs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myLogsFragment).commit();
+            }
+        });*/
 
         bottomNavigationView = findViewById(R.id.bnvClientMain);
         getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myObjectsFragment).commit();
@@ -36,12 +47,25 @@ public class MainClientActivity extends AppCompatActivity {
                 //getSupportFragmentManager().beginTransaction().replace(R.id.adminActivityFragment, adminStocksFragment).commit();
             }
             if(item.getItemId() == R.id.myProfileMenu) {
-                //getSupportFragmentManager().beginTransaction().replace(R.id.adminActivityFragment, profileFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, profileFragment).commit();
             }
             return false;
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        showLogOutDialog();
+    }
+
+    public void showLogOutDialog() {
+        LogOutFragment dialog = new LogOutFragment();
+        dialog.show(getSupportFragmentManager(), "custom");
+    }
+
+    public static String getUsername() {
+        return username;
+    }
     public static String getUserId() {
         return user_id;
     }

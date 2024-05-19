@@ -1,16 +1,8 @@
 package com.example.pscapplication;
 
-import static com.example.pscapplication.JWTHelper.decode;
-
-import android.content.Intent;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,51 +23,34 @@ import java.util.Iterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
-    TextView tvForgotPassword;
-    EditText etLogin, etPassword;
-    Button btnLogIn, btnGoReg;
-    String login, password, toastText, jwt;
-    Integer errorCode, responseCode;
-
+    String username, password, company_name, contact_person, email, phone_num, ipaddress, toastText;
+    Integer responseCode, errorCode;
+    FirstRegFragment firstRegFragment = new FirstRegFragment();
+    SecondRegFragment secondRegFragment = new SecondRegFragment();
     @Override
     public void onBackPressed() {
+        showCancelDialog();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_registration);
 
-        tvForgotPassword = findViewById(R.id.tvForgotPassword);
-        tvForgotPassword.setPaintFlags(tvForgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        btnLogIn = findViewById(R.id.btnLogIn);
-        btnGoReg = findViewById(R.id.btnGoReg);
-        etLogin = findViewById(R.id.etAuthLogin);
-        etPassword = findViewById(R.id.etAuthPassword);
+        ipaddress = BackHelper.getServerIpAddress();
+        getSupportFragmentManager().beginTransaction().replace(R.id.flRegFrameLayout, firstRegFragment).commit();
+    }
 
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                login = String.valueOf(etLogin.getText());
-                password = String.valueOf(etPassword.getText());
-                if (!login.isEmpty() && !password.isEmpty()) {
-                    new LoginTask().execute();
-                }
-                else {
-                    notAllFieldsAreFilledDialog();
-                }
-            }
-        });
+    public void showCancelDialog() {
+        CancelRegDialogFragment dialog = new CancelRegDialogFragment();
+        dialog.show(getSupportFragmentManager(), "custom");
+    }
 
-        btnGoReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goRegIntent = new Intent(getApplicationContext(), RegistrationActivity.class);
-                startActivity(goRegIntent);
-            }
-        });
+    public void successfullyRegistered() {
+        SuccessfulRegDialogFragment successfulRegDialogFragment = new SuccessfulRegDialogFragment();
+        successfulRegDialogFragment.show(getSupportFragmentManager(), "custom");
     }
 
     public void notAllFieldsAreFilledDialog() {
@@ -83,7 +58,52 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "custom");
     }
 
-    public class LoginTask extends AsyncTask<String, Void, String> {
+    public void regPasswordsNotEqualDialog() {
+        RegPasswordsNotEqualFragment dialog = new RegPasswordsNotEqualFragment();
+        dialog.show(getSupportFragmentManager(), "custom");
+    }
+
+    public void goNextStep() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.flRegFrameLayout, secondRegFragment).commit();
+    }
+
+    public void goReg() {
+        new RegistrationTask().execute();
+    }
+
+    public String getLogin() {
+        return username;
+    }
+
+    public void setLogin(String regUsername) {
+        username = regUsername;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String regPassword) {
+        password = regPassword;
+    }
+
+    public void setCompName(String regCompanyName) {
+        company_name = regCompanyName;
+    }
+
+    public void setContactPerson(String regContactPerson) {
+        contact_person = regContactPerson;
+    }
+
+    public void setEmail(String regEmail) {
+        email = regEmail;
+    }
+
+    public void setPhoneNum(String regPhoneNum) {
+        phone_num = regPhoneNum;
+    }
+
+    public class RegistrationTask extends AsyncTask<String, Void, String> {
 
         protected void onPreExecute(){}
 
@@ -92,11 +112,15 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 String ipaddress = BackHelper.getServerIpAddress();
 
-                URL url = new URL("http://" + ipaddress + "/PSC/user-operations/login.php");
+                URL url = new URL("http://" + ipaddress + "/PSC/user-operations/clients/registration.php");
 
                 JSONObject postDataParams = new JSONObject();
-                postDataParams.put("login", login);
+                postDataParams.put("username", username);
                 postDataParams.put("password", password);
+                postDataParams.put("company_name", company_name);
+                postDataParams.put("contact_person", contact_person);
+                postDataParams.put("email", email);
+                postDataParams.put("phone_num", phone_num);
                 Log.e("params",postDataParams.toString());
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -157,49 +181,38 @@ public class LoginActivity extends AppCompatActivity {
                 try {
 
                     responseCode = Integer.parseInt(ja.getString("code"));
-
                     if (responseCode == 400) {
                         errorCode = Integer.parseInt(ja.getString("error_code"));
                         switch (errorCode) {
                             case 1:
-                                toastText = getResources().getString(R.string.login_400_1);
+                                toastText = getResources().getString(R.string.reg_400_1);
                                 break;
                             case 2:
-                                toastText = getResources().getString(R.string.login_400_2);
+                                toastText = getResources().getString(R.string.reg_400_2);
                                 break;
                             case 3:
-                                toastText = getResources().getString(R.string.login_400_3);
+                                toastText = getResources().getString(R.string.reg_400_3);
                                 notAllFieldsAreFilledDialog();
                                 break;
                         }
                     }
-                    else if (responseCode == 200) {
-                        jwt = ja.getString("JWT");
-                        Log.e("JWT", jwt);
-                        String[] parts = JWTHelper.splitJWT(jwt);
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            JSONObject header = new JSONObject(decode(parts[0]));
-                            JSONObject payload = new JSONObject(decode(parts[1]));
-
-                            Log.e("HEADER", String.valueOf(header));
-                            Log.e("PAYLOAD", String.valueOf(payload));
-
-                            String user_id = payload.getString("user_id");
-                            String account_type = payload.getString("account_type");
-                            Log.e("USER_ID", user_id);
-                            Log.e("ACCOUNT_TYPE", account_type);
-
-                            if (account_type.equals("client")) {
-                                toastText = getResources().getString(R.string.login_200);
-                                Intent intent = new Intent(getApplicationContext(), MainClientActivity.class);
-                                intent.putExtra("user_id", user_id);
-                                intent.putExtra("username", login);
-                                startActivity(intent);
-                            }
-                            else {
-                                toastText = getResources().getString(R.string.not_a_client);
+                    else if (responseCode == 500) {
+                            errorCode = Integer.parseInt(ja.getString("error_code"));
+                            switch (errorCode) {
+                                case 1:
+                                    toastText = getResources().getString(R.string.reg_500_1);
+                                    break;
+                                case 2:
+                                    toastText = getResources().getString(R.string.reg_500_2);
+                                    break;
+                                case 3:
+                                    toastText = getResources().getString(R.string.reg_500_3);
+                                    break;
                             }
                         }
+                    else if (responseCode == 200) {
+                        toastText = getResources().getString(R.string.reg_200);
+                        successfullyRegistered();
                     }
                     else {
                         toastText = getResources().getString(R.string.unknown_error);

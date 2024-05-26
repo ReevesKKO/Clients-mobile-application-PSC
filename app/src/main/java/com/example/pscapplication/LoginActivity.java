@@ -55,6 +55,15 @@ public class LoginActivity extends AppCompatActivity {
         etLogin = findViewById(R.id.etAuthLogin);
         etPassword = findViewById(R.id.etAuthPassword);
 
+
+        tvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent restoreIntent = new Intent(getApplicationContext(), RestorePasswordActivity.class);
+                startActivity(restoreIntent);
+            }
+        } );
+
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

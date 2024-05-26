@@ -1,12 +1,14 @@
 package com.example.pscapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
@@ -94,6 +96,28 @@ public class MyObjectsFragment extends Fragment {
         gridList.setAdapter(secObjectListAdapter);
         secObjectListAdapter.clear();
         new MyObjectsFragment.GetAllObjectsList(getActivity()).execute();
+
+        gridList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Integer objectId = objects.get(i).getId();
+                String objectName  = objects.get(i).getName();
+                String objectAddress = objects.get(i).getAddress();
+                String objectDescription = objects.get(i).getDescription();
+                String objectSecurityMode = objects.get(i).getSecurityMode();
+                Integer objectUserId = objects.get(i).getClientId();
+
+                Intent detailObjectIntent = new Intent(getContext(), ObjectDetailedActivity.class);
+                detailObjectIntent.putExtra("id", String.valueOf(objectId));
+                detailObjectIntent.putExtra("name", objectName);
+                detailObjectIntent.putExtra("address", objectAddress);
+                detailObjectIntent.putExtra("description", objectDescription);
+                detailObjectIntent.putExtra("security_mode", objectSecurityMode);
+                detailObjectIntent.putExtra("user_id", String.valueOf(objectUserId));
+                startActivity(detailObjectIntent);
+            }
+        });
+
         return v;
     }
 

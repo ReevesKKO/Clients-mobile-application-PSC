@@ -16,6 +16,7 @@ public class MainClientActivity extends AppCompatActivity {
     MyObjectsFragment myObjectsFragment = new MyObjectsFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     MyLogsFragment myLogsFragment = new MyLogsFragment();
+    RequestsFragment requestsFragment = new RequestsFragment();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -44,7 +45,7 @@ public class MainClientActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, myObjectsFragment).commit();
             }
             if(item.getItemId() == R.id.myRequestsMenu) {
-                //getSupportFragmentManager().beginTransaction().replace(R.id.adminActivityFragment, adminStocksFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, requestsFragment).commit();
             }
             if(item.getItemId() == R.id.myProfileMenu) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.flMainClientFrameLayout, profileFragment).commit();
